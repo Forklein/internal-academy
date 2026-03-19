@@ -14,6 +14,16 @@ const mainNavItems: NavItem[] = [
         href: route('dashboard'),
         icon: LayoutGrid,
     },
+    {
+        title: 'Lista Workshops',
+        href: route('workshops.index'),
+        icon: BookOpen,
+    },
+    {
+        title: 'Crea Workshops',
+        href: route('workshops.create'),
+        icon: BookOpen,
+    },
 ];
 
 const footerNavItems: NavItem[] = [
