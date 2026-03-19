@@ -82,6 +82,9 @@ function destroy(id: number) {
 
                             <!-- ACTIONS -->
                             <div v-if="isAdmin" class="flex gap-2">
+                                <Button as-child>
+                                    <a :href="route('workshops.edit', w.id)">Edit</a>
+                                </Button>
                                 <Button 
                                     variant="destructive"
                                     @click="destroy(w.id)"
