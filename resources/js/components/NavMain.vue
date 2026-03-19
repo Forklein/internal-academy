@@ -15,11 +15,13 @@ defineProps<{
 }>();
 
 const page = usePage<SharedData>();
+const user = usePage<SharedData>().props.auth.user;
 </script>
 
 <template>
     <SidebarGroup class="px-2 py-0">
         <SidebarGroupLabel>Internal Academy</SidebarGroupLabel>
+        <SidebarGroupLabel>Role: {{ user?.role?.name }}</SidebarGroupLabel>
         <SidebarMenu>
             <SidebarMenuItem v-for="item in items" :key="item.title">
                 <SidebarMenuButton as-child :is-active="item.href === page.url">
