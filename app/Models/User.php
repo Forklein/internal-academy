@@ -57,7 +57,7 @@ class User extends Authenticatable
     public function isAdmin() {
         return $this->role?->name === 'admin';
     }
-    //Relazione con Registration molti a molti
+    //Relazione con Registration 1 a molti
     public function registrations(){
         return $this->hasMany(Registration::class);
     }
