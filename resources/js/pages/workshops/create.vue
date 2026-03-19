@@ -1,6 +1,5 @@
 <script setup lang="ts">
-import { Head, useForm } from '@inertiajs/vue3';
-
+import { Head, useForm, usePage } from '@inertiajs/vue3';
 import AppLayout from '@/layouts/AppLayout.vue';
 import HeadingSmall from '@/components/HeadingSmall.vue';
 import InputError from '@/components/InputError.vue';
@@ -37,7 +36,6 @@ const submit = () => {
 <template>
     <AppLayout :breadcrumbs="breadcrumbs">
         <Head title="Create Workshop" />
-
         <div class="flex justify-center pt-10">
             <div class="w-full max-w-2xl">
                 
