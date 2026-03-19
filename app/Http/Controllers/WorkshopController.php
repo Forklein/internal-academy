@@ -34,4 +34,29 @@ class WorkshopController extends Controller
 
         return redirect()->route('workshops.index')->with('success', 'Workshop created successfully');
     }
+
+    public function edit(Workshop $workshop){
+        return Inertia::render('workshops/edit', [
+            'workshop' => $workshop,
+        ]);
+    }
+
+    public function update(Request $request, Workshop $workshop) {
+        $validated = $request->validate([
+            'title' => 'required|string|max:255',
+            'description' => 'required|string',
+            'starts_at' => 'required|date',
+            'capacity' => 'required|integer|min:1',
+        ]);
+
+        $workshop->update($validated);
+
+        return redirect()->route('workshops.index')->with('success', 'Workshop updated successfully');
+    }
+
+    public function destroy(Workshop $workshop) {
+        $workshop->delete();
+
+        return redirect()->route('workshops.index')->with('success', 'Workshop deleted successfully');
+    }
 }
