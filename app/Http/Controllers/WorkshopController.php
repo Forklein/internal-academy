@@ -20,4 +20,18 @@ class WorkshopController extends Controller
     public function create() {
         return Inertia::render('workshops/create');
     }
+
+    public function store(Request $request){
+
+        $validated = $request->validate([
+            'title' => 'required|string|max:255',
+            'description' => 'required|string',
+            'starts_at' => 'required|date|after:now',
+            'capacity' => 'required|integer|min:1',
+        ]);
+
+        Workshop::create($validated);
+
+        return redirect()->route('workshops.index')->with('success', 'Workshop created successfully');
+    }
 }
