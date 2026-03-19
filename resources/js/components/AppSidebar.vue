@@ -4,27 +4,34 @@ import NavMain from '@/components/NavMain.vue';
 import NavUser from '@/components/NavUser.vue';
 import { Sidebar, SidebarContent, SidebarFooter, SidebarHeader, SidebarMenu, SidebarMenuButton, SidebarMenuItem } from '@/components/ui/sidebar';
 import { type NavItem } from '@/types';
-import { Link } from '@inertiajs/vue3';
+import { Link, usePage } from '@inertiajs/vue3';
 import { BookOpen, Folder, LayoutGrid } from 'lucide-vue-next';
 import AppLogo from './AppLogo.vue';
 
+const user = usePage().props.auth.user;
+
 const mainNavItems: NavItem[] = [
-    {
-        title: 'Dashboard',
-        href: route('dashboard'),
-        icon: LayoutGrid,
-    },
+    // {
+    //     title: 'Dashboard',
+    //     href: route('dashboard'),
+    //     icon: LayoutGrid,
+    // },
     {
         title: 'Lista Workshops',
         href: route('workshops.index'),
         icon: BookOpen,
     },
-    {
-        title: 'Crea Workshops',
-        href: route('workshops.create'),
-        icon: BookOpen,
-    },
+    ...(user?.role?.name === 'admin'
+        ? [
+            {
+                title: 'Crea Workshop',
+                href: route('workshops.create'),
+                icon: BookOpen,
+            }
+        ]
+        : []),
 ];
+
 
 const footerNavItems: NavItem[] = [
     {

@@ -11,14 +11,20 @@ interface Workshop {
     description: string;
     starts_at: string;
     capacity: number;
+    registrations_count: number; //worka soltanto con withCount('registrations')
 }
 
 const props = defineProps<{
     workshops: Workshop[];
+    userRegistrations: number[];
 }>();
 
 const page = usePage<SharedData>();
 const user = page.props.auth.user;
+
+function isRegistered(id: number) {
+    return props.userRegistrations.includes(id);
+}
 
 const breadcrumbs: BreadcrumbItem[] = [
     {
@@ -75,15 +81,15 @@ function destroy(id: number) {
                                     {{ w.starts_at }}
                                 </p>
 
-                                <p class="text-xs">
-                                    Capacity: {{ w.capacity }}
+                                <p class="text-sm mt-2">
+                                    {{ w.registrations_count }} Registrations / {{ w.capacity }} Capacity
                                 </p>
                             </div>
 
                             <!-- ACTIONS -->
                             <div v-if="isAdmin" class="flex gap-2">
                                 <Button as-child>
-                                    <a :href="route('workshops.edit', w.id)">Edit</a>
+                                    <a :href="route('workshops.edit', {workshop: w.id})">Edit</a>
                                 </Button>
                                 <Button 
                                     variant="destructive"
@@ -91,6 +97,26 @@ function destroy(id: number) {
                                 >
                                     Delete
                                 </Button>
+                                
+                            </div>
+                            
+
+                            <div v-if="!isAdmin">
+                                <Button 
+                                    v-if="!isRegistered(w.id)"
+                                    @click="router.post(route('workshops.register', { workshop: w.id }))"
+                                >
+                                    Register
+                                </Button>
+
+                                <Button 
+                                    v-else
+                                    variant="outline"
+                                    @click="router.delete(route('workshops.unregister', { workshop: w.id }))"
+                                >
+                                    Unregister
+                                </Button>
+
                             </div>
 
                         </div>

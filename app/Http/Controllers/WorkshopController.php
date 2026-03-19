@@ -10,10 +10,15 @@ class WorkshopController extends Controller
 {
 
     public function index() {
-        $workshops = Workshop::orderBy('created_at', 'desc')->get();
+        $user = auth()->user();
+
+        $workshops = Workshop::withCount('registrations')->get();
+
+        $userRegistrations = $user->registrations()->pluck('workshop_id');
 
         return Inertia::render('workshops/index', [
-            'workshops' => $workshops
+            'workshops' => $workshops,
+            'userRegistrations' => $userRegistrations,
         ]);
     }
 

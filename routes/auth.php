@@ -10,6 +10,7 @@ use App\Http\Controllers\Auth\RegisteredUserController;
 use App\Http\Controllers\Auth\VerifyEmailController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\WorkshopController;
+use App\Http\Controllers\RegistrationController;
 
 Route::middleware('guest')->group(function () {
     // Route::get('register', [RegisteredUserController::class, 'create'])
@@ -55,8 +56,16 @@ Route::middleware('auth')->group(function () {
     Route::post('logout', [AuthenticatedSessionController::class, 'destroy'])
         ->name('logout');
 
+    Route::get('/workshops', [WorkshopController::class, 'index'])->name('workshops.index');
+
     // Admin middleware group for workshop management
     Route::middleware(['admin'])->group(function () {
-        Route::resource('workshops', WorkshopController::class);
+        Route::resource('workshops', WorkshopController::class)->except(['index']);
     });
+
+    Route::post('/workshops/{workshop}/register', [RegistrationController::class, 'store'])
+        ->name('workshops.register');
+
+    Route::delete('/workshops/{workshop}/register', [RegistrationController::class, 'destroy'])
+        ->name('workshops.unregister');
 });
