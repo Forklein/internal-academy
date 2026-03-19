@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use App\Models\Role;
+use app\Models\Registration;
 
 class User extends Authenticatable
 {
@@ -55,5 +56,9 @@ class User extends Authenticatable
     //Check if user is admin
     public function isAdmin() {
         return $this->role?->name === 'admin';
+    }
+    //Relazione con Registration molti a molti
+    public function registrations(){
+        return $this->hasMany(Registration::class);
     }
 }
